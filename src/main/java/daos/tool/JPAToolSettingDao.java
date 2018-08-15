@@ -92,7 +92,7 @@ public class JPAToolSettingDao extends JPADao implements ToolSettingDao{
 
         return q.getResultList();
     }
-
+/*
     @Override
     public void writeToolSettings(List <ToolSetting> toolSettings, String machine, String tool) {
 
@@ -111,7 +111,6 @@ public class JPAToolSettingDao extends JPADao implements ToolSettingDao{
                 System.out.println("MACHINE" + machineDao.findMachineIdForName(machine));
                 x.getMachineId().setMachineId(machineDao.findMachineIdForName(machine));
                 x.setToolId(new Tool());
-                System.out.println("Tool" + toolDao.findToolIdForName(tool));
                 x.getToolId().setToolId(toolDao.findToolIdForName(tool));
 
                 em.persist(x);
@@ -140,7 +139,7 @@ public class JPAToolSettingDao extends JPADao implements ToolSettingDao{
             em.getTransaction().commit();
         }
     }
-
+*/
     public void writeToolSettings(List <ToolSetting> toolSettings, String machine, String tool, String version) {
 
         properties = propertyDao.readAllProperties();

@@ -18,6 +18,7 @@ public class JPAFeedbackEntryDao extends JPADao implements FeedbackEntryDao {
     public List readAllFeedbacks() {
         Query q = em.createQuery("SELECT s from FeedbackEntry s", FeedbackEntry.class);
 
+        System.out.println("fdhdhadhadtfhbnadgfhn" + q);
         return q.getResultList();
     }
 
@@ -59,6 +60,11 @@ public class JPAFeedbackEntryDao extends JPADao implements FeedbackEntryDao {
         fbOld.setRejected(fbNew.getRejected());
         fbOld.setSpeed(fbNew.getSpeed());
         fbOld.setWeight(fbNew.getWeight());
+
+        SubProcess subProcess = em.find(SubProcess.class, fbNew.getSubProcessId().getSubProcessId());
+        fbOld.setSubProcessId(subProcess);
+
+        System.out.println("NUDUIDUDIDIDUDIDODUDI");
         System.out.println(fbOld);
         System.out.println(fbNew);
         em.getTransaction().commit();
