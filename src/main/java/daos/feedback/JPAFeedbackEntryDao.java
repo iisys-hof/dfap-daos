@@ -2,6 +2,7 @@ package daos.feedback;
 
 import daos.JPADao;
 import entities.FeedbackEntry;
+import entities.Machine;
 import entities.Ordering;
 import entities.SubProcess;
 
@@ -60,6 +61,8 @@ public class JPAFeedbackEntryDao extends JPADao implements FeedbackEntryDao {
         fbOld.setRejected(fbNew.getRejected());
         fbOld.setSpeed(fbNew.getSpeed());
         fbOld.setWeight(fbNew.getWeight());
+        fbOld.setEmployeeNumber(fbNew.getEmployeeNumber());
+        fbOld.setShift(fbNew.getShift());
 
         SubProcess subProcess = em.find(SubProcess.class, fbNew.getSubProcessId().getSubProcessId());
         fbOld.setSubProcessId(subProcess);
@@ -93,4 +96,23 @@ public class JPAFeedbackEntryDao extends JPADao implements FeedbackEntryDao {
     }
 
 
+    public List<FeedbackEntry> getFeedbacksInDaterangeForMachine(Date startDate, Date endDate, Long m) {
+        TypedQuery<FeedbackEntry> q = em.createQuery("SELECT DISTINCT fe from FeedbackEntry fe where fe.startTime >= :startDate and fe.startTime <= :endDate and fe.orderingId.machineId.machineId =:machineId order by fe.orderingId.orderingId, fe.startTime", FeedbackEntry.class);
+        q.setParameter("startDate", startDate);
+        q.setParameter("endDate", endDate);
+        q.setParameter("machineId", m);
+
+
+        return q.getResultList();
+
+    }
+
+    public void deleteFeedback(Long feedbackEntryId) {
+        em.getTransaction().begin();
+        FeedbackEntry e =  em.find(FeedbackEntry.class, feedbackEntryId);
+        if (e != null) {
+            em.remove(e);
+        }
+        em.getTransaction().commit();
+    }
 }

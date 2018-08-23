@@ -1,5 +1,6 @@
 package daos.machine;
 
+import daos.DfapEntity;
 import daos.JPADao;
 import entities.Machine;
 
@@ -37,4 +38,14 @@ public class JPAMachineDao extends JPADao implements MachineDao {
     }
 
 
+    public Machine findMachineForId(Long machineId) {
+        return em.find(Machine.class, machineId);
+    }
+
+
+    public void update(Machine machine, String printerAddress) {
+       em.getTransaction().begin();
+       machine.setPrinterAddress(printerAddress);
+       em.getTransaction().commit();
+    }
 }
